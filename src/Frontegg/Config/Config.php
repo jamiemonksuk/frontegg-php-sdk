@@ -175,6 +175,15 @@ class Config
         return $this->baseUrl . static::$API_URL_KEYS[$urlKey];
     }
 
+    /**
+     * Returns authentication URL by service name.
+     *
+     * @param string $urlKey
+     *
+     * @throws InvalidUrlConfigException
+     *
+     * @return string
+     */
     public function getAuthenticationUrl(string $urlKey): string
     {
         $this->validateUrlKey($urlKey);
