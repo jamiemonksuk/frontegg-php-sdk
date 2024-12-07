@@ -175,16 +175,16 @@ class Config
         return $this->baseUrl . static::$API_URL_KEYS[$urlKey];
     }
 
-   public function getAuthenticationUrl(string $urlKey): string
-   {
-       $this->validateUrlKey($urlKey);
+    public function getAuthenticationUrl(string $urlKey): string
+    {
+        $this->validateUrlKey($urlKey);
 
-       if (isset($this->urls[$urlKey])) {
-           return $this->authenticationBaseUrl . $this->urls[$urlKey];
-       }
+        if (isset($this->urls[$urlKey])) {
+            return $this->authenticationBaseUrl . $this->urls[$urlKey];
+        }
 
-       return $this->authenticationBaseUrl . static::$API_URL_KEYS[$urlKey];
-   }
+        return $this->authenticationBaseUrl . static::$API_URL_KEYS[$urlKey];
+    }
 
     /**
      * Returns URL of the Frontegg proxy.
