@@ -1,14 +1,18 @@
 {
-    "name": "frontegg/php-sdk",
-    "description": "Frontegg SDK for PHP",
+    "name": "jamiemonks/frontegg-php-sdk",
+    "description": "Frontegg SDK for PHP, updated",
     "keywords": ["frontegg", "sdk"],
     "type": "library",
-    "homepage": "https://github.com/frontegg/php-sdk",
+    "homepage": "https://github.com/jamiemonksuk/frontegg-php-sdk",
     "license": "MIT",
     "authors": [
         {
             "name": "Frontegg",
             "homepage": "https://github.com/frontegg/php-sdk/contributors"
+        },
+        {
+            "name": "Jamie Monks",
+            "homepage": "https://github.com/jamiemonksuk"
         }
     ],
     "require": {
