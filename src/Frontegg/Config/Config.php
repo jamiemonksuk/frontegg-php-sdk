@@ -62,6 +62,13 @@ class Config
     protected $authenticationBaseUrl;
 
     /**
+     * Custom vendor region, used when determining endpoints.
+     *
+     * @var string
+     */
+    protected $vendorBaseUrl;
+
+    /**
      * Frontegg API endpoints relative URLs.
      *
      * @var array
@@ -96,7 +103,8 @@ class Config
         array $urls,
         bool $disableCors,
         callable $contextResolver,
-        string $authenticationBaseUrl
+        string $authenticationBaseUrl,
+        string $vendorBaseUrl
     ) {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
@@ -105,6 +113,7 @@ class Config
         $this->contextResolver = $contextResolver;
         $this->disableCors = $disableCors;
         $this->authenticationBaseUrl = trim($authenticationBaseUrl, '/');
+        $this->vendorBaseUrl = trim($vendorBaseUrl, '/');
     }
 
     /**
@@ -153,6 +162,14 @@ class Config
     public function getAuthenticationBaseUrl(): string
     {
         return $this->authenticationBaseUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVendorBaseUrl(): string
+    {
+        return $this->vendorBaseUrl;
     }
 
     /**
