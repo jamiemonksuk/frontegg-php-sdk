@@ -21,6 +21,7 @@ use Frontegg\Permissions\PermissionsClient;
 use Frontegg\Proxy\Adapter\FronteggHttpClient\FronteggAdapter;
 use Frontegg\Proxy\Proxy;
 use Frontegg\Roles\RolesClient;
+use Frontegg\Users\UsersClient;
 use Psr\Http\Message\RequestInterface;
 
 class Frontegg
@@ -125,6 +126,13 @@ class Frontegg
      * @var RolesClient
      */
     protected $rolesClient;
+
+    /**
+     * Frontegg users client instance.
+     *
+     * @var UsersClient
+     */
+    protected $usersClient;
 
     /**
      * Frontegg proxy.
@@ -288,6 +296,14 @@ class Frontegg
     public function getRolesClient(): RolesClient
     {
         return $this->rolesClient;
+    }
+
+    /**
+     * @return UsersClient
+     */
+    public function getUsersClient(): UsersClient
+    {
+        return $this->usersClient;
     }
 
     /**

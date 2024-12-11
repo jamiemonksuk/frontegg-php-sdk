@@ -20,6 +20,7 @@ class Config
     public const EVENTS_SERVICE = 'events';
     public const PERMISSIONS_SERVICE = 'permissions';
     public const ROLES_SERVICE = 'roles';
+    public const USERS_SERVICE = 'users'; // Different to vendor-only and bulk management endpoints
 
     public const ACCOUNT_ROLES_SERVICE_DEFAULT_URL = '/identity/resources/roles/v2';
     public const API_AUTHENTICATION_SERVICE_DEFAULT_URL = '/identity/resources/auth/v2/api-token';
@@ -28,6 +29,7 @@ class Config
     public const EVENTS_SERVICE_DEFAULT_URL = '/event/resources/triggers/v2';
     public const PERMISSIONS_SERVICE_URL = '/identity/resources/permissions/v1';
     public const ROLES_SERVICE_URL = '/identity/resources/roles/v1';
+    public const USERS_SERVICE_DEFAULT_URL = '/identity/resources/users/v1';
 
     /**
      * List of allowed API service URLs and its' default values.
@@ -42,6 +44,7 @@ class Config
         self::EVENTS_SERVICE => self::EVENTS_SERVICE_DEFAULT_URL,
         self::PERMISSIONS_SERVICE => self::PERMISSIONS_SERVICE_URL,
         self::ROLES_SERVICE => self::ROLES_SERVICE_URL,
+        self::USERS_SERVICE => self::USERS_SERVICE_DEFAULT_URL,
     ];
 
     /**
