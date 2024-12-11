@@ -17,6 +17,7 @@ use Frontegg\GeneralAuth\GeneralAuthClient;
 use Frontegg\Http\ApiRawResponse;
 use Frontegg\HttpClient\FronteggCurlHttpClient;
 use Frontegg\HttpClient\FronteggHttpClientInterface;
+use Frontegg\Permissions\PermissionsClient;
 use Frontegg\Proxy\Adapter\FronteggHttpClient\FronteggAdapter;
 use Frontegg\Proxy\Proxy;
 use Psr\Http\Message\RequestInterface;
@@ -111,6 +112,13 @@ class Frontegg
     protected $generalAuthClient;
 
     /**
+     * Frontegg parent permissions client instance.
+     *
+     * @var PermissionsClient
+     */
+    protected $permissionsClient;
+
+    /**
      * Frontegg proxy.
      *
      * @var Proxy
@@ -185,6 +193,7 @@ class Frontegg
         $this->auditsClient = new AuditsClient($this->authenticator);
         $this->eventsClient = new EventsClient($this->authenticator);
         $this->generalAuthClient = new GeneralAuthClient($this->authenticator);
+        $this->permissionsClient = new PermissionsClient($this->authenticator);
         $this->proxy = new Proxy(
             $this->authenticator,
             new FronteggAdapter($this->client),
@@ -254,6 +263,14 @@ class Frontegg
     public function getGeneralAuthClient(): GeneralAuthClient
     {
         return $this->generalAuthClient;
+    }
+
+    /**
+     * @return PermissionsClient
+     */
+    public function getPermissionsClient(): PermissionsClient
+    {
+        return $this->permissionsClient;
     }
 
     /**

@@ -17,11 +17,13 @@ class Config
     public const AUTHENTICATION_SERVICE = 'authentication';
     public const AUDITS_SERVICE = 'audits';
     public const EVENTS_SERVICE = 'events';
+    public const PERMISSIONS_SERVICE = 'permissions';
 
     public const ACCOUNT_ROLES_SERVICE_DEFAULT_URL = '/identity/resources/roles/v2';
     public const AUTHENTICATION_SERVICE_DEFAULT_URL = '/auth/vendor';
     public const AUDITS_SERVICE_DEFAULT_URL = '/audits';
     public const EVENTS_SERVICE_DEFAULT_URL = '/event/resources/triggers/v2';
+    public const PERMISSIONS_SERVICE_URL = '/identity/resources/permissions/v1';
 
     /**
      * List of allowed API service URLs and its' default values.
@@ -33,6 +35,7 @@ class Config
         self::AUTHENTICATION_SERVICE => self::AUTHENTICATION_SERVICE_DEFAULT_URL,
         self::AUDITS_SERVICE => self::AUDITS_SERVICE_DEFAULT_URL,
         self::EVENTS_SERVICE => self::EVENTS_SERVICE_DEFAULT_URL,
+        self::PERMISSIONS_SERVICE => self::PERMISSIONS_SERVICE_URL,
     ];
 
     /**
