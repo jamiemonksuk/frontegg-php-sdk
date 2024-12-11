@@ -9,9 +9,7 @@ use Frontegg\Exception\EventTriggerException;
 use Frontegg\Exception\FronteggSDKException;
 use Frontegg\Exception\InvalidParameterException;
 use Frontegg\Exception\InvalidUrlConfigException;
-use Frontegg\Http\ApiRawResponse;
 use Frontegg\Http\RequestInterface;
-use Frontegg\Http\Response;
 use Frontegg\Json\ApiJsonTrait;
 
 class EventsClient extends AuthenticatedClient
@@ -64,42 +62,7 @@ class EventsClient extends AuthenticatedClient
             RequestInterface::HTTP_REQUEST_TIMEOUT
         );
 
-        if (
-            !in_array(
-                $lastResponse->getHttpResponseCode(),
-                Response::getSuccessHttpStatuses()
-            )
-        ) {
-            if (empty($lastResponse->getBody())) {
-                throw new EventTriggerException($lastResponse->getBody());
-            }
-            $this->setErrorFromResponseData($lastResponse);
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Sets an error data from response data.
-     * Sets access token to null.
-     *
-     * @param ApiRawResponse $response
-     *
-     * @return void
-     */
-    protected function setErrorFromResponseData(ApiRawResponse $response): void
-    {
-        $errorDecoded = $this->getDecodedJsonData(
-            $response->getBody()
-        );
-
-        $this->setApiError(
-            $errorDecoded['error'] ?? '',
-            $errorDecoded['message'] ? print_r($errorDecoded['message'], true) : '',
-            $errorDecoded['statusCode'] ?? null
-        );
+        return $this->validateLastResponse($lastResponse, $this->authenticator->getConfig()->isThrowOnError());
     }
 
     /**
