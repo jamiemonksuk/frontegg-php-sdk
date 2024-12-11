@@ -13,6 +13,7 @@ use Frontegg\Exception\AuthenticationException;
 use Frontegg\Exception\FronteggSDKException;
 use Frontegg\Exception\InvalidParameterException;
 use Frontegg\Exception\InvalidUrlConfigException;
+use Frontegg\GeneralAuth\GeneralAuthClient;
 use Frontegg\Http\ApiRawResponse;
 use Frontegg\HttpClient\FronteggCurlHttpClient;
 use Frontegg\HttpClient\FronteggHttpClientInterface;
@@ -103,6 +104,13 @@ class Frontegg
     protected $eventsClient;
 
     /**
+     * Frontegg general authentication client instance.
+     *
+     * @var GeneralAuthClient
+     */
+    protected $generalAuthClient;
+
+    /**
      * Frontegg proxy.
      *
      * @var Proxy
@@ -176,6 +184,7 @@ class Frontegg
         $this->apiAuthClient = new ApiAuthClient($this->authenticator);
         $this->auditsClient = new AuditsClient($this->authenticator);
         $this->eventsClient = new EventsClient($this->authenticator);
+        $this->generalAuthClient = new GeneralAuthClient($this->authenticator);
         $this->proxy = new Proxy(
             $this->authenticator,
             new FronteggAdapter($this->client),
@@ -237,6 +246,14 @@ class Frontegg
     public function getEventsClient(): EventsClient
     {
         return $this->eventsClient;
+    }
+
+    /**
+     * @return GeneralAuthClient
+     */
+    public function getGeneralAuthClient(): GeneralAuthClient
+    {
+        return $this->generalAuthClient;
     }
 
     /**
