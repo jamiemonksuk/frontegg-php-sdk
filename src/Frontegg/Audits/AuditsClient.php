@@ -3,7 +3,7 @@
 namespace Frontegg\Audits;
 
 use Exception;
-use Frontegg\Authenticator\Authenticator;
+use Frontegg\Base\AuthenticatedClient;
 use Frontegg\Config\Config;
 use Frontegg\Exception\AuthenticationException;
 use Frontegg\Exception\FronteggSDKException;
@@ -11,35 +11,12 @@ use Frontegg\Exception\InvalidParameterException;
 use Frontegg\Exception\InvalidUrlConfigException;
 use Frontegg\Http\RequestInterface;
 use Frontegg\Http\Response;
-use Frontegg\HttpClient\FronteggHttpClientInterface;
 use Frontegg\Json\ApiJsonTrait;
 
-class AuditsClient
+class AuditsClient extends AuthenticatedClient
 {
     use ApiJsonTrait;
 
-    /**
-     * @var Authenticator
-     */
-    protected $authenticator;
-
-    /**
-     * AuditsClient constructor.
-     *
-     * @param Authenticator $authenticator
-     */
-    public function __construct(Authenticator $authenticator)
-    {
-        $this->authenticator = $authenticator;
-    }
-
-    /**
-     * @return Authenticator
-     */
-    public function getAuthenticator(): Authenticator
-    {
-        return $this->authenticator;
-    }
 
     /**
      * Gets audits data collection by free text filter limited by results count
@@ -72,9 +49,6 @@ class AuditsClient
     ): array {
         $this->validateAuthentication();
 
-        $accessTokenValue = $this->getAuthenticator()
-            ->getAccessToken()
-            ->getValue();
         $url = $this->getUrlWithQueryParams(
             $filter,
             $offset,
@@ -86,7 +60,7 @@ class AuditsClient
 
         $headers = [
             'Content-Type' => 'application/json',
-            'x-access-token' => $accessTokenValue,
+            'x-access-token' => $this->getAccessTokenValue(),
             'frontegg-tenant-id' => $tenantId,
         ];
 
@@ -143,12 +117,9 @@ class AuditsClient
 
         $this->validateAuthentication();
 
-        $accessTokenValue = $this->getAuthenticator()
-            ->getAccessToken()
-            ->getValue();
         $headers = [
             'Content-Type' => 'application/json',
-            'x-access-token' => $accessTokenValue,
+            'x-access-token' => $this->getAccessTokenValue(),
             'frontegg-tenant-id' => $tenantId,
         ];
 
@@ -235,29 +206,4 @@ class AuditsClient
             );
     }
 
-    /**
-     * Returns HTTP client.
-     *
-     * @return FronteggHttpClientInterface
-     */
-    protected function getHttpClient(): FronteggHttpClientInterface
-    {
-        return $this->authenticator->getClient();
-    }
-
-    /**
-     * Validates access token.
-     * Throws an exception on failure.
-     *
-     * @throws AuthenticationException
-     *
-     * @return void
-     */
-    protected function validateAuthentication(): void
-    {
-        $this->authenticator->validateAuthentication();
-        if (!$this->authenticator->getAccessToken()) {
-            throw new AuthenticationException('Authentication problem');
-        }
-    }
 }
