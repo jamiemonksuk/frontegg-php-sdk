@@ -91,14 +91,69 @@ $frontegg->init();
 | **contextResolver**   | callable | None | Callback to provide context info. Required |
 | apiBaseUrl        | string | https://api.frontegg.com | Base API URL |
 | authenticationBaseUrl | string | https://api.frontegg.com | Base URL used for authentication |
+| vendorBaseUrl     | string | https://my-domain.frontegg.com | Base URL used for 'self service' endpoints |
 | apiUrls           | array | [] | List of URLs of the API services |
 | disableCors       | bool | false | Disabling CORS headers for Middleware Proxy |
+| throwOnError      | bool | false | Throw exceptions on error. Otherwise use $frontegg->getXxxxxClient()->getApiError(); |
 | httpClientHandler | special interface* | Curl client** | Custom HTTP client |
 | *apiVersion*      | string | 'v1' | **Not used yet.** API version |
 
 *special interface - `Frontegg\HttpClient\FronteggHttpClientInterface`,
 
 **Curl client - `Frontegg\HttpClient\FronteggCurlHttpClient`
+
+---
+
+### Hosted Login Flow
+
+This handles the hosted login workflow, which is the fastest way to get up and running.
+
+The example endpoints /login and /callback can be configured as you like.
+The `$redirect_uri` should point to your callback location.
+
+For loocal development, you may wish to fire up an Ngrok server to allow 2-way communication wih the platform.
+
+**/login**
+````php
+$code_verifier = mySecurityStringFunction();
+$_SESSION['code_verifier'] = $code_verifier;
+$auth_url = $frontegg->getGeneralAuthClient()->getLoginRedirectUrl($code_verifier, $redirect_uri);
+
+header("Location: $auth_url");
+exit();
+````
+
+**/callback**
+````php
+$response_data = $frontegg->getGeneralAuthClient()->verifyCallback($_SESSION['code_verifier'], $redirect_uri, $_GET['code']);
+````
+
+**Refresh token**
+This would be done in the background, not via a specific endpoint.
+It would be best practive to never expose this to the client in a PHP implementation.
+
+````php
+$response_data = $frontegg->getGeneralAuthClient()->refreshAccessToken($refresh_token);
+````
+---
+
+
+### User Admin
+````php
+$response = $frontegg->getUsersClient()->getUserByEmail('jamie@pharosify.com');
+$response = $frontegg->getUsersClient()->getUser('5c3eeac7-9b2b-9b2b-9b2b-6b25ed879093', $tenant_id);
+$response = $frontegg->getUsersClient()->updateUserEmail('5c3eeac7-9b2b-9b2b-9b2b-6b25ed879093', 'jamie@pharosify.com');
+$response = $frontegg->getUsersClient()->updateUserGlobally(
+    '5c3eeac7-9b2b-9b2b-9b2b-6b25ed879093',
+    '+61871207100',
+    null,
+    ['meta data' => 'this is so meta'],
+    ['some data' => 'this is data'],
+    true,
+    'Person User'
+);
+````
+---
 
 ### Audits
 
@@ -122,6 +177,7 @@ $config = [
     'clientId' => 'YOUR_CLIENT_ID',
     'clientSecret' => 'YOUR_SECRET_API_KEY',
     'apiBaseUrl' => 'https://api.frontegg.com/',
+    'vendorBaseUrl' => 'https://my-domain.frontegg.com/',
     'apiUrls' => [
         'authentication' => '/auth/vendor',
         'audits' => '/audits',
@@ -134,6 +190,7 @@ $config = [
         ];
     },
     'disableCors' => false, // You can enable/disable CORS headers for Middleware Proxy.
+    'throwOnError' => false, // Throw exceptions on error. Otherwise use $frontegg->getXxxxxClient()->getApiError();
     'httpClientHandler' => new FronteggCurlHttpClient(), // You can provide custom HTTP client.
     'apiVersion' => 'v1', // Not used yet. Coming soon.
 ];
@@ -189,6 +246,7 @@ $auditsLog = $frontegg->getAudits(
     // ... Additional filters
 );
 ````
+---
 
 ### Events
 
@@ -241,6 +299,7 @@ $triggerOptions = new TriggerOptions(
 );
 $response = $frontegg->triggerEvent($triggerOptions);
 ````
+---
 
 ### Middleware (Proxy)
 
@@ -335,4 +394,18 @@ $frontegg = new Frontegg($config);
 $response = $frontegg->forward($adapterRequest);
 
 print $response->getBody();
+````
+
+---
+
+### Error Handling
+This is applicable when `throwOnError` is set to false.
+Replace `getUsersClient` with whichever client you just used
+
+````php
+$error = $frontegg->getUsersClient()->getApiError();
+if ($error) {
+    echo 'Request failed: ' . $error->getMessage();
+    exit();
+}
 ````
