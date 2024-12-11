@@ -14,12 +14,14 @@ class Config
     public const PROXY_URL = '/frontegg';
 
     public const ACCOUNT_ROLES_SERVICE = 'account-roles';
+    public const API_AUTHENTICATION_SERVICE = 'api-authentication';
     public const AUTHENTICATION_SERVICE = 'authentication';
     public const AUDITS_SERVICE = 'audits';
     public const EVENTS_SERVICE = 'events';
     public const PERMISSIONS_SERVICE = 'permissions';
 
     public const ACCOUNT_ROLES_SERVICE_DEFAULT_URL = '/identity/resources/roles/v2';
+    public const API_AUTHENTICATION_SERVICE_DEFAULT_URL = '/identity/resources/auth/v2/api-token';
     public const AUTHENTICATION_SERVICE_DEFAULT_URL = '/auth/vendor';
     public const AUDITS_SERVICE_DEFAULT_URL = '/audits';
     public const EVENTS_SERVICE_DEFAULT_URL = '/event/resources/triggers/v2';
@@ -32,6 +34,7 @@ class Config
      */
     protected static $API_URL_KEYS = [
         self::ACCOUNT_ROLES_SERVICE => self::ACCOUNT_ROLES_SERVICE_DEFAULT_URL,
+        self::API_AUTHENTICATION_SERVICE => self::API_AUTHENTICATION_SERVICE_DEFAULT_URL,
         self::AUTHENTICATION_SERVICE => self::AUTHENTICATION_SERVICE_DEFAULT_URL,
         self::AUDITS_SERVICE => self::AUDITS_SERVICE_DEFAULT_URL,
         self::EVENTS_SERVICE => self::EVENTS_SERVICE_DEFAULT_URL,
