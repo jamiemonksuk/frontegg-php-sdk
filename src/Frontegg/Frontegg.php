@@ -2,6 +2,7 @@
 
 namespace Frontegg;
 
+use Frontegg\AccountRoles\AccountRolesClient;
 use Frontegg\Audits\AuditsClient;
 use Frontegg\Authenticator\Authenticator;
 use Frontegg\Config\Config;
@@ -71,6 +72,13 @@ class Frontegg
      * @var Authenticator
      */
     protected $authenticator;
+
+    /**
+     * Frontegg account roles client instance.
+     *
+     * @var AccountRolesClient
+     */
+    protected $accountRolesClient;
 
     /**
      * Frontegg audits client instance.
@@ -155,6 +163,8 @@ class Frontegg
             new FronteggCurlHttpClient();
 
         $this->authenticator = new Authenticator($this->config, $this->client);
+
+        $this->accountRolesClient = new AccountRolesClient($this->authenticator);
         $this->auditsClient = new AuditsClient($this->authenticator);
         $this->eventsClient = new EventsClient($this->authenticator);
         $this->proxy = new Proxy(
@@ -186,6 +196,14 @@ class Frontegg
     public function getConfig(): Config
     {
         return $this->config;
+    }
+
+    /**
+     * @return AccountRolesClient
+     */
+    public function getAccountRolesClient(): AccountRolesClient
+    {
+        return $this->accountRolesClient;
     }
 
     /**
