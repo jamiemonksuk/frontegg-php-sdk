@@ -86,6 +86,11 @@ class Config
     protected $disableCors;
 
     /**
+     * @var bool
+     */
+    protected $throwOnError;
+
+    /**
      * Config constructor.
      *
      * @param string $clientId
@@ -102,6 +107,7 @@ class Config
         string $baseUrl,
         array $urls,
         bool $disableCors,
+        bool $throwOnError,
         callable $contextResolver,
         string $authenticationBaseUrl,
         string $vendorBaseUrl
@@ -112,6 +118,7 @@ class Config
         $this->setApiUrls($urls);
         $this->contextResolver = $contextResolver;
         $this->disableCors = $disableCors;
+        $this->throwOnError = $throwOnError;
         $this->authenticationBaseUrl = trim($authenticationBaseUrl, '/');
         $this->vendorBaseUrl = trim($vendorBaseUrl, '/');
     }
@@ -130,6 +137,14 @@ class Config
     public function isDisableCors(): bool
     {
         return $this->disableCors;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isThrowOnError(): bool
+    {
+        return $this->throwOnError;
     }
 
     /**

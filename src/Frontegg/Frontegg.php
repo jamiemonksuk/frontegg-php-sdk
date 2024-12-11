@@ -113,6 +113,7 @@ class Frontegg
                 'apiVersion' => static::DEFAULT_API_VERSION,
                 'httpClientHandler' => null,
                 'disableCors' => false,
+                'throwOnError' => false,
                 'contextResolver' => null,
             ],
             $config
@@ -145,6 +146,7 @@ class Frontegg
             $config['apiBaseUrl'],
             $config['apiUrls'],
             $config['disableCors'],
+            $config['throwOnError'],
             $config['contextResolver'],
             $config['authenticationBaseUrl'],
             $config['vendorBaseUrl']
