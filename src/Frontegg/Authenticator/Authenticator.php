@@ -197,7 +197,7 @@ class Authenticator
 
         $this->setApiError(
             $errorDecoded['error'] ?? '',
-            $errorDecoded['message'] ? print_r($errorDecoded['message'], true) : '',
+            !empty($errorDecoded['message']) ? print_r($errorDecoded['message'], true) : '',
             $errorDecoded['statusCode'] ?? null
         );
         $this->accessToken = null;
