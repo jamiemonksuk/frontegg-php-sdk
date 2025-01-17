@@ -216,6 +216,7 @@ class Frontegg
             new FronteggAdapter($this->client),
             $this->config->getContextResolver()
         );
+        $this->usersClient = new UsersClient($this->authenticator);
     }
 
     /**
