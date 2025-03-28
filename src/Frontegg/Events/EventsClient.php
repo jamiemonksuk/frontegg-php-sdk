@@ -62,7 +62,9 @@ class EventsClient extends AuthenticatedClient
             RequestInterface::HTTP_REQUEST_TIMEOUT
         );
 
-        return $this->validateLastResponse($lastResponse, $this->authenticator->getConfig()->isThrowOnError());
+        $this->validateLastResponse($lastResponse, $this->authenticator->getConfig()->isThrowOnError());
+
+        return true;
     }
 
     /**
